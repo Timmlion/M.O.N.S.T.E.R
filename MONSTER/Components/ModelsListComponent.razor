@@ -1,0 +1,15 @@
+﻿<MudPaper Class="pa-2 ma-2" Elevation="3">
+    <MudGrid align-center>
+        @foreach (AssistantModel am in _assistantModels)
+        {
+            <MudItem xs="4">
+                <MudButton 
+                           Variant="@am.Variant"
+                           StartIcon="@am.Icon"
+                           Color="Color.Warning"
+                           FullWidth="true"
+                           OnClick="e => SetPrompt(am)">@am.Name</MudButton>
+            </MudItem>    
+        }
+    </MudGrid>
+</MudPaper>
