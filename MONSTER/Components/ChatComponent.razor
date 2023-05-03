@@ -15,11 +15,8 @@
         <MudItem xs="12">
             <MudPaper Class="d-flex align-center flex-grow-1 gap-4" Elevation="0">
                 <MudItem xs="12">
-                    <MudTextField @bind-Value="_chatInput" Label="message" Variant="Variant.Outlined"></MudTextField>
+                    <MudTextField @bind-Value="_chatInput" Label="message" Variant="Variant.Outlined" @onkeydown="@SendMsgAsync"></MudTextField>
                 </MudItem>
-               <!-- <MudItem xs="2">
-                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" EndIcon="@Icons.Material.Filled.Send">Send</MudButton>
-                </MudItem>-->
             </MudPaper>
         </MudItem>
      </MudGrid>

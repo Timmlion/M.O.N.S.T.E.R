@@ -8,17 +8,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="FireSharp" Version="2.0.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.2" PrivateAssets="all" />
 		<PackageReference Include="MudBlazor" Version="6.0.6" />
+		<PackageReference Include="OpenAI" Version="1.7.2" />
 	</ItemGroup>
 	
 	<ItemGroup>
 		<ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <Folder Include="Services\" />
 	</ItemGroup>
 
 </Project>
