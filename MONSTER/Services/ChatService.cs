@@ -15,10 +15,10 @@ namespace MONSTER.Services
         public void Setup(string apiKey)
         {
             _api = new OpenAIAPI(apiKey);
+            _chat = _api.Chat.CreateConversation();
         }
         public void SetSystemMsg(string msg)
-        {
-            _chat = _api.Chat.CreateConversation();
+        {            
             _chat.AppendSystemMessage(msg);
         }
 

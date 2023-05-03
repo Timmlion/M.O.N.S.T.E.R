@@ -12,7 +12,7 @@ namespace MONSTER.Services
         private IFirebaseConfig _config;
         public DbService()
         {
-            _authSecret = "UCryPEG5I40KppgUPehKCkFeizI7RdDx1UYGDDvJ";
+            //_authSecret = configuration["Database:ApiSecret"];
             _basePath = "https://monster-9c6b6-default-rtdb.europe-west1.firebasedatabase.app/";
             _config = new FirebaseConfig
             {

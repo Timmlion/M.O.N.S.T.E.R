@@ -11,37 +11,39 @@ namespace MONSTER.Components
         public ChatService ChatService { get; set; }
         [Inject]
         public DbService DbService { get; set; }
+        [Inject]
+        public IConfiguration configuration {get;set;}
 
-        private List<ChatElement> _chatElements = new List<ChatElement> {
-            new ChatElement {Content="What is lorem ipsum?",Variant = Variant.Text, HorizontalAlignment=HorizontalAlignment.Right },{
-            new ChatElement {Content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                                       Variant = Variant.Outlined, HorizontalAlignment=HorizontalAlignment.Left} } };
+        private List<ChatElement> _chatElements = new List<ChatElement>();
 
-        private string _chatInput;
-        private bool ChatSetUp = false;
+        private string _inputField;
+        private bool _chatSetUp = false;
 
-        private void SetupAsync()
+        private void Setup()
         {
-            var response = DbService.GetApiKey();
-            ChatService.Setup(response.Body);
-            
-            ChatSetUp = true;
+            ChatService.Setup(configuration["OpenApi:ApiKey"]);            
+            _chatSetUp = true;
         }
 
         public async Task SendMsgAsync(KeyboardEventArgs e)
-        {
+        {            
             if (e.Code == "Enter" || e.Code == "NumpadEnter")
             {
-                if (!ChatSetUp) SetupAsync();
-                //DbService.GetApiKeyAsync();
-                //DbService.SendDataAsync();
-                var response = await ChatService.SendMsgAsync("test");
-                new ResponseChatElement(response);
-                //block input
-                //display some loading anim
+                string chatInput = _inputField;
+                _inputField = "";
+
+                if (!_chatSetUp) Setup();
+
+                ChatElement userInput = new UserChatElement(chatInput);
+                _chatElements.Add(userInput);
+
+                var response = await ChatService.SendMsgAsync(chatInput);
+                
+                ChatElement chatElement = new ResponseChatElement(response);
+
+                _chatElements.Add(chatElement);
             }
         }
-
     }
 
     public class ChatElement
