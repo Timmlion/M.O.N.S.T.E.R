@@ -1,13 +1,40 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components;
+using MONSTER.Models;
+using MONSTER.Services;
 using MudBlazor;
+using System.Net;
 
 namespace MONSTER.Components
 {
     public partial class ModelsListComponent : ComponentBase
     {
-        private List<AssistantModel> _assistantModels = new List<AssistantModel> { new AssistantModel { Name="Tłumacz", SystemPrompt="Trolo", Icon = Icons.Material.Filled.LibraryBooks, Variant = Variant.Outlined },
-                                                                                                             new AssistantModel { Name="CoPilot", SystemPrompt="Trolo2", Icon = Icons.Material.Filled.Computer, Variant = Variant.Outlined}};
-        private void SetPrompt(AssistantModel am)
+        [Inject]
+        public ILocalStorageService _localStorage { get; set; }
+
+        private List<AssistantModelButton> _assistantModelsButtons = new List<AssistantModelButton>();
+        protected override async Task OnParametersSetAsync()
+        {
+            _assistantModelsButtons = TransformAssistants(await _localStorage.GetItemAsync<List<AssistantModel>>("Models"));
+        }
+
+        private List<AssistantModelButton> TransformAssistants(List<AssistantModel> assistantModels)
+        {
+            List<AssistantModelButton> result = new List<AssistantModelButton>();
+            foreach(AssistantModel assistantModel in assistantModels)
+            {
+                result.Add(new AssistantModelButton
+                {
+                    Name = assistantModel.Name,
+                    SystemPrompt = assistantModel.SystemPrompt,
+                    Icon = assistantModel.Icon,
+                    Variant = Variant.Outlined
+                });
+            }
+            return result;
+        }
+
+        private void SetPrompt(AssistantModelButton am)
         {
             ResetVariant();
             am.Variant = Variant.Filled;
@@ -16,18 +43,15 @@ namespace MONSTER.Components
 
         private void ResetVariant()
         {
-            foreach(var assistant in _assistantModels)
+            foreach(var assistant in _assistantModelsButtons)
             {
                 assistant.Variant = Variant.Outlined;
             }
         }
     }
 
-    public class AssistantModel
-    {
-        public string Name { get; set; }
-        public string SystemPrompt { get; set; }
-        public string Icon { get; set; }
+    public class AssistantModelButton : AssistantModel
+    {        
         public Variant Variant { get; set; }
     }
 }

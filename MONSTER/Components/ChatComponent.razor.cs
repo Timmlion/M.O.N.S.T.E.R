@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using MONSTER.Services;
 using MudBlazor;
@@ -10,7 +11,7 @@ namespace MONSTER.Components
         [Inject]
         public ChatService ChatService { get; set; }
         [Inject]
-        public DbService DbService { get; set; }
+        public ILocalStorageService _localStorage { get; set; }
         [Inject]
         public IConfiguration configuration {get;set;}
 
@@ -21,7 +22,7 @@ namespace MONSTER.Components
 
         private void Setup()
         {
-            ChatService.Setup(configuration["OpenApi:ApiKey"]);            
+            ChatService.Setup(configuration["OpenApi:ApiKey"]);  // Switch to local storage           
             _chatSetUp = true;
         }
 
