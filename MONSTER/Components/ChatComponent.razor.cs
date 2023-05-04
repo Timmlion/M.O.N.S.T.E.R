@@ -11,20 +11,11 @@ namespace MONSTER.Components
         [Inject]
         public ChatService ChatService { get; set; }
         [Inject]
-        public ILocalStorageService _localStorage { get; set; }
-        [Inject]
-        public IConfiguration configuration {get;set;}
+        public ISyncLocalStorageService _localStorage { get; set; }
 
         private List<ChatElement> _chatElements = new List<ChatElement>();
 
         private string _inputField;
-        private bool _chatSetUp = false;
-
-        private void Setup()
-        {
-            ChatService.Setup(configuration["OpenApi:ApiKey"]);  // Switch to local storage           
-            _chatSetUp = true;
-        }
 
         public async Task SendMsgAsync(KeyboardEventArgs e)
         {            
@@ -32,8 +23,6 @@ namespace MONSTER.Components
             {
                 string chatInput = _inputField;
                 _inputField = "";
-
-                if (!_chatSetUp) Setup();
 
                 ChatElement userInput = new UserChatElement(chatInput);
                 _chatElements.Add(userInput);

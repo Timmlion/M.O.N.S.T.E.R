@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components;
+using MONSTER.Models;
 using OpenAI_API;
 using OpenAI_API.Chat;
 using OpenAI_API.Models;
@@ -6,19 +8,33 @@ using OpenAI_API.Models;
 namespace MONSTER.Services
 {
     public class ChatService
-    {
+    {        
+        public ISyncLocalStorageService _localStorage { get; set; }
+
         //https://github.com/OkGoDoIt/OpenAI-API-dotnet
         private OpenAIAPI _api;
         private Conversation _chat;
-        private Model _model;
+        private ChatSettings _chatSettings;
 
-        public void Setup(string apiKey)
+        public ChatService(ISyncLocalStorageService localStorage)
         {
-            _api = new OpenAIAPI(apiKey);
-            _chat = _api.Chat.CreateConversation();
+            _localStorage = localStorage;
+            _chatSettings = _localStorage.GetItem<ChatSettings>("Settings");
+            ResetChat();
         }
+
+
+        public void ResetChat()
+        {
+            _api = new OpenAIAPI(_chatSettings.OpenAiApiKey);            
+            _chat = _api.Chat.CreateConversation();
+            _chat.Model = _chatSettings.Model;
+        }
+
         public void SetSystemMsg(string msg)
-        {            
+        {
+            _chat = _api.Chat.CreateConversation();
+            _chat.Model = _chatSettings.Model;
             _chat.AppendSystemMessage(msg);
         }
 

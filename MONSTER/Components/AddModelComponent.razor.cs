@@ -10,15 +10,18 @@ namespace MONSTER.Components
     public partial class AddModelComponent : ComponentBase
     {
         [Inject]
-        public ILocalStorageService _localStorage { get; set; }
+        public ISyncLocalStorageService _localStorage { get; set; }
+        [Inject]
+        private NavigationManager UriHelper { get; set; }
 
         private AssistantModel _am = new AssistantModel();
 
-        private async void SaveModel()
+        private void SaveModel()
         {
-            List<AssistantModel> ModelList = await _localStorage.GetItemAsync<List<AssistantModel>>("Models");
-
+            List<AssistantModel> ModelList = _localStorage.GetItem<List<AssistantModel>>("Models");
             ModelList.Add(_am);
+            _localStorage.SetItem<List<AssistantModel>>("Models", ModelList);
+            UriHelper.NavigateTo($"/");
         }
     }
 }

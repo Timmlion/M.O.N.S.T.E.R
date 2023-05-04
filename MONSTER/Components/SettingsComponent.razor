@@ -1,0 +1,15 @@
+﻿@page "/settings"
+@using OpenAI_API.Models;
+
+<MudPaper Class="pa-16 ma-16" Elevation="3">
+    <MudForm>
+        <MudTextField @bind-Value="_cs.OpenAiApiKey" Class="pa-2" T="string" Label="Klucz Api" />
+        <MudSelect @bind-Value="_model" T ="string" Label="Model" AnchorOrigin="Origin.BottomCenter">
+            <MudSelectItem Value="@("GPT4")" />
+            <MudSelectItem Value="@("ChatGPTTurbo")" />
+        </MudSelect>
+        <div class="d-flex align-center justify-space-between">
+            <MudButton Variant="Variant.Filled" Color="Color.Warning"  Class="ml-auto" OnClick="SaveSettings">Zapisz ustawienia</MudButton>
+        </div>
+    </MudForm>
+</MudPaper>

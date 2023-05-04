@@ -10,12 +10,18 @@ namespace MONSTER.Components
     public partial class ModelsListComponent : ComponentBase
     {
         [Inject]
-        public ILocalStorageService _localStorage { get; set; }
+        public ISyncLocalStorageService _localStorage { get; set; }
+        [Inject]
+        public ChatService ChatService { get; set; }
 
-        private List<AssistantModelButton> _assistantModelsButtons = new List<AssistantModelButton>();
-        protected override async Task OnParametersSetAsync()
+        private List<AssistantModelButton> _assistantModelsButtons;
+        protected override void OnParametersSet()
         {
-            _assistantModelsButtons = TransformAssistants(await _localStorage.GetItemAsync<List<AssistantModel>>("Models"));
+            _assistantModelsButtons = TransformAssistants(_localStorage.GetItem<List<AssistantModel>>("Models"));
+            if (_assistantModelsButtons == null )
+            {
+                _assistantModelsButtons = new List<AssistantModelButton>();
+            }
         }
 
         private List<AssistantModelButton> TransformAssistants(List<AssistantModel> assistantModels)
@@ -36,6 +42,7 @@ namespace MONSTER.Components
 
         private void SetPrompt(AssistantModelButton am)
         {
+            ChatService.SetSystemMsg(am.SystemPrompt);
             ResetVariant();
             am.Variant = Variant.Filled;
             StateHasChanged();
