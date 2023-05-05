@@ -25,17 +25,20 @@ namespace MONSTER.Components
         }
 
         private List<AssistantModelButton> TransformAssistants(List<AssistantModel> assistantModels)
-        {
+        {            
             List<AssistantModelButton> result = new List<AssistantModelButton>();
-            foreach(AssistantModel assistantModel in assistantModels)
+            if (assistantModels != null)
             {
-                result.Add(new AssistantModelButton
+                foreach (AssistantModel assistantModel in assistantModels)
                 {
-                    Name = assistantModel.Name,
-                    SystemPrompt = assistantModel.SystemPrompt,
-                    Icon = assistantModel.Icon,
-                    Variant = Variant.Outlined
-                });
+                    result.Add(new AssistantModelButton
+                    {
+                        Name = assistantModel.Name,
+                        SystemPrompt = assistantModel.SystemPrompt,
+                        Icon = assistantModel.Icon,
+                        Variant = Variant.Outlined
+                    });
+                }
             }
             return result;
         }
