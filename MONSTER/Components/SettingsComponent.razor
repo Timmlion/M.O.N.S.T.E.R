@@ -4,7 +4,7 @@
 <MudPaper Class="pa-16 ma-16" Elevation="3">
     <MudForm>
         <MudTextField @bind-Value="_cs.OpenAiApiKey" Class="pa-2" T="string" Label="Klucz Api" />
-        <MudSelect @bind-Value="_model" T ="string" Label="Model" AnchorOrigin="Origin.BottomCenter">
+        <MudSelect @bind-Value="_model" T="string" Class="pa-2" Label="Model" AnchorOrigin="Origin.BottomCenter">
             <MudSelectItem Value="@("GPT4")" />
             <MudSelectItem Value="@("ChatGPTTurbo")" />
         </MudSelect>

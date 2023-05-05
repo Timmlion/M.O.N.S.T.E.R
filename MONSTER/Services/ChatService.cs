@@ -20,6 +20,10 @@ namespace MONSTER.Services
         {
             _localStorage = localStorage;
             _chatSettings = _localStorage.GetItem<ChatSettings>("Settings");
+            if(_chatSettings == null )
+            {
+                _chatSettings = new ChatSettings();
+            }
             ResetChat();
         }
 
