@@ -1,19 +1,28 @@
 ﻿@page "/addmodel"
-
 <MudPaper Class="pa-16 ma-16" Elevation="3">
+    <MudForm>
+        <MudSelect @bind-Value="_am" Class="pa-2" Label="Wybierz model do edycji" AnchorOrigin="Origin.BottomCenter">
+            <MudSelectItem Value=@_newModel>Nowy Model</MudSelectItem>
+            @foreach (var model in _modelList)
+            {
+                <MudSelectItem Value=@model>@model.Name</MudSelectItem>
+            }
+        </MudSelect>
+    </MudForm>
+    <MudDivider DividerType="DividerType.Middle" Class="my-6" />
     <MudForm>
         <MudTextField @bind-Value="_am.Name" Class="pa-2" T="string" Label="Nazwa Modelu" />
         <MudTextField @bind-Value="_am.SystemPrompt" Class="pa-2" T="string" Label="Prompt"  Lines="3" />
-        <MudTextField @bind-Value="_am.Icon" Class="pa-2" T="string" Label="Ikona" />
-        <MudSelect @bind-Value="_am.Icon" T="string" Label="Ikona" AnchorOrigin="Origin.BottomCenter">
+        <MudSelect @bind-Value="_am.Icon" T="string" Class="pa-2"  Label="Ikona" AnchorOrigin="Origin.BottomCenter">
             @foreach(var icon in _iconList)
             {
                 <MudSelectItem Value=@icon><MudIcon Icon="@icon" Title="Favorite" /></MudSelectItem>
             }
         </MudSelect>
-                    
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
         <div class="d-flex align-center justify-space-between">
-            <MudButton Variant="Variant.Filled" Color="Color.Warning"  Class="ml-auto" OnClick="SaveModel">Zapisz model</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Warning"  Class="ml-auto" OnClick="SaveModel">Zapisz nowy model</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Warning" Class="ml-auto" OnClick="EditModel">Zapisz zmiany w modelu</MudButton>
         </div>
     </MudForm>
 </MudPaper>
