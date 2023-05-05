@@ -16,23 +16,32 @@ namespace MONSTER.Components
         private NavigationManager UriHelper { get; set; }
 
         private AssistantModel _am = new AssistantModel();
-        string[] _iconList;
+        private AssistantModel _newModel = new AssistantModel();
+        List<AssistantModel> _modelList;
 
-        private void SaveModel()
+        string[] _iconList;
+        protected override void OnParametersSet()
         {
-            List<AssistantModel> ModelList = _localStorage.GetItem<List<AssistantModel>>("Models");
-            if(ModelList == null)
+            GetIconList();
+            _modelList = _localStorage.GetItem<List<AssistantModel>>("Models");
+            if (_modelList == null)
             {
-                ModelList = new List<AssistantModel>();
+                _modelList = new List<AssistantModel>();
             }
-            ModelList.Add(_am);
-            _localStorage.SetItem<List<AssistantModel>>("Models", ModelList);
+        }
+        private void SaveModel()
+        {           
+            _modelList.Add(_am);
+            _localStorage.SetItem<List<AssistantModel>>("Models", _modelList);
             UriHelper.NavigateTo($"/");
         }
-        
-        
-        
-        protected override void OnParametersSet()
+        private void EditModel()
+        {
+            _localStorage.SetItem<List<AssistantModel>>("Models", _modelList);
+            UriHelper.NavigateTo($"/");
+        }
+
+        private void GetIconList()
         {
             _iconList = new string[]{Icons.Material.Filled.Favorite, @Icons.Material.Filled.Api, @Icons.Material.Filled.AddCircle, @Icons.Custom.Brands.GitHub,
                 @Icons.Custom.Brands.Google, @Icons.Custom.Brands.Reddit, @Icons.Custom.Uncategorized.Radioactive,
@@ -46,8 +55,6 @@ namespace MONSTER.Components
                 @Icons.Material.Filled.Code, @Icons.Material.Filled.Computer, @Icons.Material.Filled.ContentPaste, @Icons.Material.Filled.Copyright,
                 @Icons.Material.Filled.CrueltyFree, @Icons.Material.Filled.DarkMode, @Icons.Material.Filled.DeviceHub
             };
-  
-
         }
     }
 }
