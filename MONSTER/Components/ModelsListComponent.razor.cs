@@ -14,7 +14,7 @@ namespace MONSTER.Components
         [Inject]
         public ChatService ChatService { get; set; }
 
-        private List<AssistantModelButton> _assistantModelsButtons;
+        private List<AssistantModelButton>? _assistantModelsButtons;
         protected override void OnParametersSet()
         {
             _assistantModelsButtons = TransformAssistants(_localStorage.GetItem<List<AssistantModel>>("Models"));
