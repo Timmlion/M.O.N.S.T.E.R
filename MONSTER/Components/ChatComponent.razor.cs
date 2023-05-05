@@ -13,7 +13,7 @@ namespace MONSTER.Components
         [Inject]
         public ISyncLocalStorageService _localStorage { get; set; }
 
-        private List<ChatElement> _chatElements = new List<ChatElement>();
+        private Stack<ChatElement> _chatElements = new Stack<ChatElement>();
 
         private string _inputField;
 
@@ -25,13 +25,13 @@ namespace MONSTER.Components
                 _inputField = "";
 
                 ChatElement userInput = new UserChatElement(chatInput);
-                _chatElements.Add(userInput);
+                _chatElements.Push(userInput);
 
                 var response = await ChatService.SendMsgAsync(chatInput);
                 
                 ChatElement chatElement = new ResponseChatElement(response);
 
-                _chatElements.Add(chatElement);
+                _chatElements.Push(chatElement);
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using MONSTER.Models;
+using MONSTER.Services;
 using OpenAI_API.Models;
 
 namespace MONSTER.Components
@@ -11,6 +12,8 @@ namespace MONSTER.Components
         public ISyncLocalStorageService _localStorage { get; set; }
         [Inject]
         private NavigationManager UriHelper { get; set; }
+        [Inject]
+        public ChatService ChatService { get; set; }
 
         private ChatSettings _cs { get; set; } 
 
@@ -36,6 +39,8 @@ namespace MONSTER.Components
             }
 
             _localStorage.SetItem("Settings", _cs);
+            ChatService.ResetChat();
+
             UriHelper.NavigateTo($"/");
         }
     }
